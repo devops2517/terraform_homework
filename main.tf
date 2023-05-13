@@ -53,5 +53,5 @@ variable "region" {
 }
 
 variable "bucket_name" {
-  default = "terraform-example-bucket"
+  default = "terraform-my-bucket"
 }

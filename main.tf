@@ -2,6 +2,11 @@ provider "aws" {
   region = "us-east-1"
 }
 
+resource "aws_key_pair" "my_key" {
+  key_name   = "my_key"
+  public_key = file("~/.ssh/id_rsa.pub")
+}
+
 resource "aws_security_group" "allow_ssh" {
   name_prefix = "allow_ssh"
   ingress {
@@ -15,7 +20,7 @@ resource "aws_security_group" "allow_ssh" {
 resource "aws_instance" "build" {
   ami = "ami-0aa2b7722dc1b5612"
   instance_type = "t2.micro"
-  key_name = "my_key_pair"
+  key_name = aws_key_pair.my_key.key_name
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
   user_data = <<-EOF
               #!/bin/bash
@@ -31,7 +36,7 @@ resource "aws_instance" "build" {
 resource "aws_instance" "app" {
   ami = "ami-0aa2b7722dc1b5612"
   instance_type = "t2.micro"
-  key_name = "my_key_pair"
+  key_name = aws_key_pair.my_key.key_name
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
   user_data = <<-EOF
               #!/bin/bash
@@ -44,7 +49,7 @@ resource "aws_instance" "app" {
 }
 
 variable "region" {
-  default = "us-west-2"
+  default = "us-east-1"
 }
 
 variable "bucket_name" {

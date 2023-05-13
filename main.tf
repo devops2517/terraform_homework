@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-west-2"
+  region = "us-east-1"
 }
 
 resource "aws_security_group" "allow_ssh" {
@@ -13,7 +13,7 @@ resource "aws_security_group" "allow_ssh" {
 }
 
 resource "aws_instance" "build" {
-  ami = "ami-0a887e401f7654935"
+  ami = "ami-0aa2b7722dc1b5612"
   instance_type = "t2.micro"
   key_name = "my_key_pair"
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
@@ -29,7 +29,7 @@ resource "aws_instance" "build" {
 }
 
 resource "aws_instance" "app" {
-  ami = "ami-0a887e401f7654935"
+  ami = "ami-0aa2b7722dc1b5612"
   instance_type = "t2.micro"
   key_name = "my_key_pair"
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
